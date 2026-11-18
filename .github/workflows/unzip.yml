@@ -1,0 +1,27 @@
+name: Unzip upload
+on:
+  push:
+    branches: [main]
+    paths: ['*.zip']
+permissions:
+  contents: write
+jobs:
+  unzip:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Unpack zip files into the repo root
+        run: |
+          shopt -s nullglob
+          for f in *.zip; do
+            unzip -o "$f"
+            git rm -q --cached "$f" || true
+            rm -f "$f"
+          done
+      - name: Commit result
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add -A
+          git diff --cached --quiet || git commit -m "Unpack uploaded zip"
+          git push
