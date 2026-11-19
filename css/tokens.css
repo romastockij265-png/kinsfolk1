@@ -1,0 +1,4 @@
+:root{--bg:#10141D;--s1:#171C28;--s2:#202737;--line:#2A3245;--tx:#E8EDF7;--tx2:#8D9AB3;--err:#EE7B73;--ac:#9DB9F5;--on:#0F1420;--ok:#6FD3A0;--ease:cubic-bezier(.22,1,.36,1);--spring:cubic-bezier(.34,1.56,.64,1);
+--disp:'Space Grotesk',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;--body:'Manrope',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;--mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+--bgg:radial-gradient(120% 55% at 50% -8%,color-mix(in srgb,var(--ac) 16%,transparent),transparent 65%),var(--bg);color-scheme:dark}
+:root[data-theme=light]{--bg:#EEF2F9;--s1:#FFFFFF;--s2:#E4EAF5;--line:#D2DAEA;--tx:#141A2A;--tx2:#5F6D8A;--err:#CF4A42;--ac:#4268B8;--on:#FFFFFF;--ok:#23915f;color-scheme:light}

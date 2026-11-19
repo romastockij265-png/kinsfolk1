@@ -1,0 +1,6 @@
+.st{padding:calc(24px + env(safe-area-inset-top,0px)) 20px calc(24px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:16px;min-height:100%}
+.st-brand{display:flex;flex-direction:column;align-items:center;gap:6px;padding:30px 0 10px;text-align:center}.st-logo{color:var(--ac)}.st-logo .ic svg{width:64px;height:64px;stroke-width:1.5;animation:pop .6s var(--spring)}
+.st-card{background:var(--s1);border:1px solid var(--line);border-radius:18px;overflow:hidden}.st-row{display:flex;justify-content:space-between;gap:12px;padding:14px 16px;border-bottom:1px solid var(--line);font-size:14px}.st-row:last-child{border:0}.st-row b{font-weight:500;text-align:right}.good{color:var(--ok)}.bad{color:var(--err)}
+.st-bar{display:flex;align-items:center;gap:12px}.lg-list{flex:1;display:flex;flex-direction:column;gap:8px;overflow-y:auto}.lg-empty{text-align:center;padding:40px 0}
+.lg-item{background:var(--s1);border:1px solid var(--line);border-radius:14px;padding:10px 12px;animation:in .4s var(--ease) both;-webkit-user-select:text;user-select:text}.lg-item.error{border-color:color-mix(in srgb,var(--err) 50%,var(--line))}.lg-item small{color:var(--tx2);font-size:11px}.lg-item p{font-size:12.5px;word-break:break-word}
+.st-actions{display:grid;gap:10px}
