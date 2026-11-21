@@ -22,3 +22,5 @@
 | Создание профиля | js/features/profile/setup.js | setupScreen |
 | Аккаунт (выход, удаление) | js/features/settings/account.js | accountScreen |
 | SQL этапа 1 | supabase/schema.sql, policies.sql, storage.sql, stage1_all.sql | |
+| Сборка APK | docs/build-apk.yml.txt → .github/workflows/build-apk.yml | workflow «Build APK» |
+| Значки и ключ подписи APK | assets/ | android/res, debug.keystore |
