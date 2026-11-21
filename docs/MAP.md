@@ -15,10 +15,10 @@
 | Версия | js/core/version.js | APP_VERSION |
 | Вызовы входа и профиля | js/core/api.js | Api.auth.*, Api.profiles.* |
 | Маршрутизация по сессии | js/features/auth/index.js | enter(), хуки auth:* |
-| Экраны входа | js/features/auth/screens.js | login, signup, forgot, codeLogin |
-| Экран кода, новый пароль | js/features/auth/codeScreen.js | codeScreen, newPassScreen |
+| Экран входа (почта) | js/features/auth/screens.js | loginScreen |
+| Экран кода | js/features/auth/codeScreen.js | codeScreen |
 | 6 ячеек кода | js/features/auth/otpInput.js | createOtp |
-| Общие поля форм | js/features/auth/forms.js | pwField, meter, msg |
+| Общие поля форм | js/features/auth/forms.js | emailField, msg, button |
 | Создание профиля | js/features/profile/setup.js | setupScreen |
 | Аккаунт (выход, удаление) | js/features/settings/account.js | accountScreen |
 | SQL этапа 1 | supabase/schema.sql, policies.sql, storage.sql, stage1_all.sql | |

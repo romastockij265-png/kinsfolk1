@@ -8,7 +8,6 @@ export function accountScreen({ UI, Router, Store, Api, Guard, config }) {
   const row = (ic, label, fn, cls = '') => el('button', { class: 'btn ghost rip ' + cls, type: 'button', onclick: fn }, icon(ic), label);
   return el('section', { class: 'auth home' },
     ava, el('h1', { text: p.display_name || '' }), el('p', { class: 'sub mono', text: '@' + (p.username || '') }), el('p', { class: 'sub mono', text: u.email || '' }),
-    row('key', t('ac.pw'), () => Router.go('newpass', { mode: 'change' })),
     row('logout', t('ac.out'), () => out('local')),
     row('logout', t('ac.outAll'), async () => { if (await dialog({ title: t('ac.outAllQ'), text: t('ac.outAllT'), ok: t('ac.outAll') })) out('global'); }),
     row('info', t('ac.about'), () => Router.go('about')),

@@ -42,13 +42,8 @@ export async function call(label, fn, { retries = 2 } = {}) {
 }
 const A = (label, fn) => call(label, c => fn(c.auth), { retries: 0 }); // письма и пароли не повторяем
 const auth = {
-  signUp: (email, password) => A('signUp', a => a.signUp({ email, password })),
-  verify: (email, token, type) => A('verify', a => a.verifyOtp({ email, token, type })),
-  signIn: (email, password) => A('signIn', a => a.signInWithPassword({ email, password })),
-  sendCode: email => A('sendCode', a => a.signInWithOtp({ email, options: { shouldCreateUser: false } })),
-  resendSignup: email => A('resend', a => a.resend({ type: 'signup', email })),
-  reset: email => A('reset', a => a.resetPasswordForEmail(email)),
-  setPassword: password => A('setPassword', a => a.updateUser({ password })),
+  sendCode: email => A('sendCode', a => a.signInWithOtp({ email, options: { shouldCreateUser: true } })), // новый аккаунт создаётся сам
+  verify: (email, token) => A('verify', a => a.verifyOtp({ email, token, type: 'email' })),
   signOut: (scope = 'local') => A('signOut', a => a.signOut({ scope })),
   deleteAccount: () => call('deleteAccount', c => c.rpc('delete_my_account'), { retries: 0 })
 };
