@@ -11,7 +11,8 @@ export async function sb() {
 }
 export function errKey(e) {
   const m = `${e?.name || ''} ${e?.message || ''}`.toLowerCase(), c = String(e?.code || '').toLowerCase(), s = e?.status;
-  if (!navigator.onLine || /failed to fetch|networkerror|load failed|retryablefetch/.test(m)) return 'err.net';
+  if (/error sending .*email/.test(m)) return 'err.mail'; // Supabase не смог отправить письмо (проблема SMTP)
+  if (!navigator.onLine || /failed to fetch|networkerror|load failed/.test(m) || (/retryablefetch/.test(m) && !s)) return 'err.net';
   if (/email_not_confirmed/.test(c) || /email not confirmed/.test(m)) return 'err.notconfirmed';
   if (/user_already_exists|email_exists/.test(c)) return 'err.exists';
   if (/weak_password/.test(c)) return 'err.weak';
