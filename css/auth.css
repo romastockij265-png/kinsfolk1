@@ -19,3 +19,4 @@
 .ava{width:96px;height:96px;border-radius:50%;background:var(--s2);border:1px dashed var(--ac);display:grid;place-items:center;font:600 34px var(--disp);color:var(--ac);overflow:hidden;position:relative;align-self:center;margin-bottom:4px}.ava>span{grid-area:1/1}.ava .ic{grid-area:1/1;opacity:.0}.ava img{width:100%;height:100%;object-fit:cover;grid-area:1/1}.ava input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
 .ava.solid{border-style:solid;cursor:default}
 .home{align-items:stretch;text-align:center}.home .btn{margin-top:2px}.home .sub{margin:-6px 0}.home .ava{margin:6px auto}
+.otp{gap:6px}.otp input{height:56px;font-size:22px;padding:0}
