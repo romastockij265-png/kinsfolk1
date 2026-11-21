@@ -1,5 +1,6 @@
 // Запуск: ядро → модули → старт. Сломанный модуль не роняет приложение.
-import * as config from './core/config.js';
+import * as config0 from './core/config.js';
+import { APP_VERSION } from './core/version.js';
 import { Log } from './core/log.js';
 import { Hooks } from './core/hooks.js';
 import { Store } from './core/store.js';
@@ -9,12 +10,13 @@ import { Api } from './core/api.js';
 import { I18n } from './core/i18n.js';
 import { Guard } from './core/guard.js';
 
+const config = { ...config0, APP_VERSION };
 Log.install(); UI.initRipple(); I18n.setLang('ru');
 const ctx = { config, Hooks, Store, Router, UI, Api, I18n, Log, Guard };
-window.Kinsfolk = { version: config.APP_VERSION }; // для отладки
+window.Kinsfolk = { version: APP_VERSION }; // для отладки
 
 // Чтобы убрать модуль — удалите его строку. Остальное продолжит работать.
-const MODULES = ['settings'];
+const MODULES = ['settings', 'profile', 'auth'];
 const loaded = [];
 for (const name of MODULES) {
   try { (await import(`./features/${name}/index.js`)).register(ctx); loaded.push(name); }

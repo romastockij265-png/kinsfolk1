@@ -12,6 +12,12 @@ export async function sb() {
 export function errKey(e) {
   const m = `${e?.name || ''} ${e?.message || ''}`.toLowerCase(), c = String(e?.code || '').toLowerCase(), s = e?.status;
   if (!navigator.onLine || /failed to fetch|networkerror|load failed|retryablefetch/.test(m)) return 'err.net';
+  if (/email_not_confirmed/.test(c) || /email not confirmed/.test(m)) return 'err.notconfirmed';
+  if (/user_already_exists|email_exists/.test(c)) return 'err.exists';
+  if (/weak_password/.test(c)) return 'err.weak';
+  if (/same_password/.test(c)) return 'err.samepass';
+  if (/otp_disabled/.test(c) || /signups not allowed/.test(m)) return 'err.nouser';
+  if (c === '23505') return 'err.taken';
   if (s === 429 || /rate_limit/.test(c) || /rate limit|too many/.test(m)) return 'err.rate';
   if (/otp_expired/.test(c) || /expired|token has|otp/.test(m)) return 'err.code';
   if (/invalid_credentials/.test(c) || /invalid login/.test(m)) return 'err.credentials';
@@ -34,7 +40,33 @@ export async function call(label, fn, { retries = 2 } = {}) {
     }
   }
 }
+const A = (label, fn) => call(label, c => fn(c.auth), { retries: 0 }); // письма и пароли не повторяем
+const auth = {
+  signUp: (email, password) => A('signUp', a => a.signUp({ email, password })),
+  verify: (email, token, type) => A('verify', a => a.verifyOtp({ email, token, type })),
+  signIn: (email, password) => A('signIn', a => a.signInWithPassword({ email, password })),
+  sendCode: email => A('sendCode', a => a.signInWithOtp({ email, options: { shouldCreateUser: false } })),
+  resendSignup: email => A('resend', a => a.resend({ type: 'signup', email })),
+  reset: email => A('reset', a => a.resetPasswordForEmail(email)),
+  setPassword: password => A('setPassword', a => a.updateUser({ password })),
+  signOut: (scope = 'local') => A('signOut', a => a.signOut({ scope })),
+  deleteAccount: () => call('deleteAccount', c => c.rpc('delete_my_account'), { retries: 0 })
+};
+const profiles = {
+  get: id => call('profile.get', c => c.from('profiles').select('*').eq('id', id).maybeSingle()),
+  async usernameFree(u, myId) {
+    const d = await call('profile.free', c => c.from('profiles').select('id').eq('username', u).limit(1));
+    return !d.length || d[0].id === myId;
+  },
+  save: p => call('profile.save', c => c.from('profiles').upsert(p, { onConflict: 'id' }).select().single(), { retries: 0 }),
+  async uploadAvatar(uid, blob) {
+    const path = `${uid}/avatar-${Date.now()}.jpg`;
+    await call('avatar.upload', c => c.storage.from('avatars').upload(path, blob, { contentType: 'image/jpeg', upsert: true }), { retries: 0 });
+    return (await sb()).storage.from('avatars').getPublicUrl(path).data.publicUrl;
+  }
+};
 export const Api = {
+  auth, profiles,
   sb, call, errKey,
   session: () => call('session', c => c.auth.getSession(), { retries: 0 }).then(d => d.session),
   onAuth: cb => sb().then(c => c.auth.onAuthStateChange((ev, s) => setTimeout(() => cb(ev, s), 0)))

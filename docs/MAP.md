@@ -12,3 +12,13 @@
 | Supabase | js/core/api.js | sb, call, errKey, Api.session/onAuth |
 | Запуск | js/main.js | список MODULES |
 | О программе, Журнал | js/features/settings/ | about.js, logView.js |
+| Версия | js/core/version.js | APP_VERSION |
+| Вызовы входа и профиля | js/core/api.js | Api.auth.*, Api.profiles.* |
+| Маршрутизация по сессии | js/features/auth/index.js | enter(), хуки auth:* |
+| Экраны входа | js/features/auth/screens.js | login, signup, forgot, codeLogin |
+| Экран кода, новый пароль | js/features/auth/codeScreen.js | codeScreen, newPassScreen |
+| 6 ячеек кода | js/features/auth/otpInput.js | createOtp |
+| Общие поля форм | js/features/auth/forms.js | pwField, meter, msg |
+| Создание профиля | js/features/profile/setup.js | setupScreen |
+| Аккаунт (выход, удаление) | js/features/settings/account.js | accountScreen |
+| SQL этапа 1 | supabase/schema.sql, policies.sql, storage.sql, stage1_all.sql | |

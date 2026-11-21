@@ -1,5 +1,5 @@
 // Журнал ошибок: последние 50 записей (память + localStorage). Ни от чего не зависит.
-import { APP_VERSION } from './config.js';
+import { APP_VERSION } from './version.js';
 const KEY = 'kf_log', MAX = 50;
 let items = [];
 try { items = JSON.parse(localStorage.getItem(KEY) || '[]'); } catch { items = []; }
