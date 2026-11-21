@@ -3,7 +3,8 @@ import { Log } from './log.js';
 import { Hooks } from './hooks.js';
 import { Store } from './store.js';
 const screens = new Map();
-let cur = null, idx = 0, seq = 0;
+const plain = o => { try { return structuredClone(o); } catch { return {}; } }; // в историю браузера нельзя класть функции
+let cur = null, idx = 0, seq = 0, intent = null;
 async function show(name, params) {
   const def = screens.get(name); if (!def) return Log.error('router', 'нет экрана: ' + name);
   const mine = ++seq;
@@ -21,10 +22,12 @@ export const Router = {
   home: 'about',
   register: (name, def) => screens.set(name, typeof def === 'function' ? { render: def } : def),
   current: () => cur?.name,
+  intended: () => intent, // куда уже отправили, но экран ещё рисуется
   go(name, params = {}, { replace = false } = {}) {
     if (!screens.has(name)) return Log.error('router', 'нет экрана: ' + name);
-    if (replace) history.replaceState({ kf: 1, i: idx, name, params }, '');
-    else history.pushState({ kf: 1, i: ++idx, name, params }, '');
+    intent = name;
+    if (replace) history.replaceState({ kf: 1, i: idx, name, params: plain(params) }, '');
+    else history.pushState({ kf: 1, i: ++idx, name, params: plain(params) }, '');
     return show(name, params);
   },
   back() { if (idx > 0) history.back(); else Router.go(Router.home, {}, { replace: true }); }

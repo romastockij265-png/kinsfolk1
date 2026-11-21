@@ -34,4 +34,4 @@ if (config.isConfigured() || window.__SB__) {
   }).catch(e => Log.error('auth-bridge', e));
 }
 await Hooks.run('app:ready');
-if (!Router.current()) Router.go(Router.home, {}, { replace: true });
+if (!Router.current() && !Router.intended()) Router.go(Router.home, {}, { replace: true });

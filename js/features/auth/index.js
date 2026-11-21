@@ -27,8 +27,9 @@ export function register({ Hooks, Router, Store, Api, UI, config }) {
   Router.register('code', p => codeScreen(flow, p));
   Router.register('retry', p => {
     const b = button(S('retry'));
-    const f = el('form', { onsubmit: async e => { e.preventDefault(); busy(b, true); try { await p.again(); } finally { busy(b, false); } } }, b);
-    return shell(el('h1', { text: S('loadFail') }), el('p', { class: 'sub', text: p.msg }), f);
+    const f = el('form', { onsubmit: async e => { e.preventDefault(); busy(b, true); try { await (p.again ? p.again() : location.reload()); } finally { busy(b, false); } } }, b);
+    return shell(el('h1', { text: S('loadFail') }), el('p', { class: 'sub', text: p.msg }), f,
+      el('button', { type: 'button', class: 'link', onclick: () => Router.go('log') }, S('log')));
   });
   Hooks.on('app:ready', async () => {
     if (!config.isConfigured() && !window.__SB__) return; // без ключей остаётся экран «О программе»
