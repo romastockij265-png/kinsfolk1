@@ -17,5 +17,6 @@ export function loginScreen(flow, params = {}) {
     catch (x) { err.set(t(x.key || 'err.generic')); } finally { busy(go, false); }
   } }, em.wrap, err.el, go);
   setTimeout(() => em.i.isConnected && !params.note && em.i.focus(), 350);
-  return shell(el('h1', { text: S('login') }), el('p', { class: 'sub', text: S('loginSub') }), form);
+  return shell(el('h1', { text: S('login') }), el('p', { class: 'sub', text: S('loginSub') }), form,
+    el('button', { type: 'button', class: 'link', onclick: () => Router.go('log') }, S('log')));
 }
