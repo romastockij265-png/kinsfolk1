@@ -11,6 +11,7 @@ export async function sb() {
 }
 export function errKey(e) {
   const m = `${e?.name || ''} ${e?.message || ''}`.toLowerCase(), c = String(e?.code || '').toLowerCase(), s = e?.status;
+  if (/pgrst205|42p01|could not find the table|does not exist/.test(`${c} ${m}`)) return 'err.setup'; // не выполнен SQL этапа
   if (/error sending .*email/.test(m)) return 'err.mail'; // Supabase не смог отправить письмо (проблема SMTP)
   if (!navigator.onLine || /failed to fetch|networkerror|load failed/.test(m) || (/retryablefetch/.test(m) && !s)) return 'err.net';
   if (/email_not_confirmed/.test(c) || /email not confirmed/.test(m)) return 'err.notconfirmed';
