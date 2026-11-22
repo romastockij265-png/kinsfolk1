@@ -27,3 +27,11 @@
 | Форма профиля (создание/правка) | js/features/profile/form.js | profileForm |
 | Поиск людей | js/features/people/search.js | peopleScreen |
 | Поиск в API | js/core/api.js | Api.profiles.search, removeAvatarFile |
+| Вкладки (панель снизу) | js/core/router.js, js/core/ui.js | Router.addTab, UI.tabbed |
+| Список чатов | js/features/chats/list.js | chatsScreen |
+| Подписка на сообщения «вживую» | js/features/chats/index.js, js/core/api.js | Api.chats.subscribe |
+| Экран чата | js/features/messages/screen.js | chatScreen |
+| Чаты и сообщения в API | js/core/api.js | Api.chats.list/start/messages/send/markRead |
+| Тема и размер текста | js/features/settings/theme.js | setTheme, setSize |
+| Вкладки Контакты / Настройки / Профиль | people/search.js, settings/settingsScreen.js, settings/account.js | |
+| SQL этапа 3 | supabase/stage3.sql | таблицы, RLS, my_chats, start_direct_chat |

@@ -7,7 +7,7 @@
 <title>Kinsfolk</title>
 <link rel="stylesheet" href="css/tokens.css">
 <link rel="stylesheet" href="css/base.css">
-<script>document.documentElement.dataset.theme=matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'</script>
+<script>try{var t=localStorage.getItem('kf_theme')||'auto',f=localStorage.getItem('kf_fs');document.documentElement.dataset.theme=(t==='light'||(t==='auto'&&matchMedia('(prefers-color-scheme: light)').matches))?'light':'dark';if(f)document.documentElement.style.setProperty('--fs',f+'px')}catch(e){document.documentElement.dataset.theme='dark'}</script>
 </head>
 <body>
 <div id="app"></div>

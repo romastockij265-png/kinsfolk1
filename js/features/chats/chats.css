@@ -1,0 +1,10 @@
+.cl-sf{margin:0 16px 8px}
+.cl-list{display:flex;flex-direction:column;padding-bottom:12px}
+.cl-row{display:flex;gap:14px;align-items:center;width:100%;text-align:left;padding:11px 16px;position:relative;animation:in .4s var(--ease) both;animation-delay:calc(var(--i,0)*35ms);transition:background .25s}
+.cl-row:active{background:color-mix(in srgb,var(--ac) 10%,transparent)}
+.cl-row::after{content:"";position:absolute;left:80px;right:0;bottom:0;height:1px;background:var(--line);opacity:.55}
+.cl-row .ava{width:52px;height:52px;margin:0;border-style:solid;font-size:19px;flex:none}
+.cl-row .m{min-width:0;flex:1}.cl-row .rw{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.cl-row b{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.cl-row .tm{font-size:12px;color:var(--tx2);flex:none}
+.cl-row small{color:var(--tx2);font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;min-height:21px}
+.bdg{background:var(--ac);color:var(--on);border-radius:99px;min-width:22px;height:22px;padding:0 7px;font:600 12px/22px var(--mono);text-align:center;flex:none;animation:pop .5s var(--spring)}

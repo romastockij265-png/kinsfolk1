@@ -16,7 +16,7 @@ const ctx = { config, Hooks, Store, Router, UI, Api, I18n, Log, Guard };
 window.Kinsfolk = { version: APP_VERSION }; // для отладки
 
 // Чтобы убрать модуль — удалите его строку. Остальное продолжит работать.
-const MODULES = ['settings', 'profile', 'people', 'auth'];
+const MODULES = ['settings', 'profile', 'people', 'chats', 'messages', 'auth'];
 const loaded = [];
 for (const name of MODULES) {
   try { (await import(`./features/${name}/index.js`)).register(ctx); loaded.push(name); }

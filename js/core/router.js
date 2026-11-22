@@ -18,10 +18,16 @@ async function show(name, params) {
   await Hooks.run('route:changed', { name, params });
   await Hooks.run('ui:rendered', { name, node });
 }
+const tabs = [];
 export const Router = {
   home: 'about',
+  tabs,
+  addTab(t) { tabs.push(t); tabs.sort((a, b) => (a.order ?? 9) - (b.order ?? 9)); },
+  landing: () => tabs[0]?.id || 'account', // куда попадаем после входа
   register: (name, def) => screens.set(name, typeof def === 'function' ? { render: def } : def),
   current: () => cur?.name,
+  // Подменяет текущую запись истории без перерисовки (чтобы «назад» вело в нужное место)
+  rewrite(name, params = {}) { history.replaceState({ kf: 1, i: idx, name, params: plain(params) }, ''); },
   intended: () => intent, // куда уже отправили, но экран ещё рисуется
   go(name, params = {}, { replace = false } = {}) {
     if (!screens.has(name)) return Log.error('router', 'нет экрана: ' + name);

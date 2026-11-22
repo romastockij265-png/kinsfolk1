@@ -17,7 +17,7 @@ export function register({ Hooks, Router, Store, Api, UI, config }) {
     try {
       const p = await Api.profiles.get(uid);
       st.uid = uid; Store.set('user', session.user); Store.set('profile', p || null);
-      Router.go(p ? 'account' : 'setup', {}, { replace: true });
+      Router.go(p ? Router.landing() : 'setup', {}, { replace: true });
     } catch (x) {
       if (x.key === 'err.session') { await Api.auth.signOut('local').catch(() => {}); Router.go('login', { note: t('err.session') }, { replace: true }); }
       else Router.go('retry', { msg: t(x.key || 'err.generic'), again: () => enter(session) }, { replace: true });
@@ -42,5 +42,5 @@ export function register({ Hooks, Router, Store, Api, UI, config }) {
     const was = !!st.uid; st.uid = null; Store.set('user', null); Store.set('profile', null);
     Router.go('login', { note: keep || (!manual && was ? t('err.session') : '') }, { replace: true });
   });
-  Hooks.on('profile:saved', p => { Store.set('profile', p); Router.go('account', {}, { replace: true }); });
+  Hooks.on('profile:saved', p => { Store.set('profile', p); Router.go(Router.landing(), {}, { replace: true }); });
 }

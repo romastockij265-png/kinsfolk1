@@ -18,3 +18,8 @@ Authentication → **Emails** → **Templates**. Откройте docs/email-tem
 Распакуйте kinsfolk-stage1.zip в корень репозитория. Ваш js/core/config.js НЕ входит в архив — ключи не затрутся.
 ## Капча (Turnstile)
 В этот этап не включена: пока вход проверен только лимитами писем. Если появятся левые регистрации — включим (Authentication → Attack Protection).
+
+# Этап 3: чаты (один раз)
+1. Supabase → SQL Editor → New query. В GitHub откройте supabase/stage3.sql → Copy raw file → вставьте в Supabase → **Run**. Должно быть «Success».
+2. Если выскочила красная ошибка — пришлите её мне целиком.
+3. Realtime (сообщения «вживую») включается тем же скриптом. Проверка: Supabase → Database → Publications → supabase_realtime — в списке должны быть messages и chat_members.

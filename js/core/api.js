@@ -75,8 +75,33 @@ const profiles = {
     return (await sb()).storage.from('avatars').getPublicUrl(path).data.publicUrl;
   }
 };
+const chats = {
+  list: () => call('chats.list', c => c.rpc('my_chats')),
+  start: other => call('chats.start', c => c.rpc('start_direct_chat', { other }), { retries: 0 }),
+  // before — старее этого id (подгрузка истории), after — новее (догрузка пропущенного)
+  async messages(chatId, { before = null, after = null, limit = 50 } = {}) {
+    const d = await call('messages.load', c => {
+      let q = c.from('messages').select('*').eq('chat_id', chatId);
+      if (before) q = q.lt('id', before);
+      if (after) q = q.gt('id', after);
+      return q.order('id', { ascending: !!after }).limit(limit);
+    });
+    return after ? d : d.reverse();
+  },
+  send: (chatId, body, me) => call('messages.send', c => c.from('messages').insert({ chat_id: chatId, sender_id: me, body, kind: 'text' }).select().single(), { retries: 0 }),
+  markRead: (chatId, me, msgId) => call('chats.read', c => c.from('chat_members').update({ last_read_message_id: msgId }).eq('chat_id', chatId).eq('user_id', me), { retries: 0 }),
+  // Сообщения и новые чаты «вживую». Возвращает функцию отписки.
+  async subscribe(me, on) {
+    const c = await sb();
+    const ch = c.channel('kf-' + me)
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' }, p => on.message?.(p.new))
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'chat_members', filter: `user_id=eq.${me}` }, () => on.members?.())
+      .subscribe(status => on.status?.(status));
+    return () => c.removeChannel(ch);
+  }
+};
 export const Api = {
-  auth, profiles,
+  auth, profiles, chats,
   sb, call, errKey,
   session: () => call('session', c => c.auth.getSession(), { retries: 0 }).then(d => d.session),
   onAuth: cb => sb().then(c => c.auth.onAuthStateChange((ev, s) => setTimeout(() => cb(ev, s), 0)))

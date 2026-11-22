@@ -28,3 +28,8 @@
 .pl-list{display:flex;flex-direction:column;gap:8px}.pl-empty{text-align:center;padding:30px 10px}
 .pl-row{display:flex;gap:14px;align-items:center;background:var(--s1);border:1px solid var(--line);border-radius:16px;padding:10px 14px;animation:in .4s var(--ease) both;animation-delay:calc(var(--i,0)*40ms)}
 .pl-row .ava{width:48px;height:48px;font-size:18px;border-style:solid;margin:0;flex:none}.pl-row .m{min-width:0;flex:1}.pl-row b{display:block;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.pl-row small{color:var(--tx2)}.pl-row p{font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.home{justify-content:flex-start}.tabs-screen .auth{min-height:0}
+.segc{display:flex;background:var(--s2);border-radius:12px;padding:3px}.segc button{flex:1;min-height:40px;border-radius:9px;font-size:14px;color:var(--tx2);transition:all .3s var(--ease)}.segc button.on{background:var(--bg);color:var(--tx);box-shadow:0 0 0 1px var(--line)}
+button.pl-row{width:100%;text-align:left;cursor:pointer;transition:transform .2s var(--spring),border-color .2s}button.pl-row:active{transform:scale(.97)}button.pl-row.busy{opacity:.6;pointer-events:none}button.pl-row>.ic{color:var(--tx2)}
+.people .hd h1{font-size:30px}
+.auth{overflow-y:auto}
