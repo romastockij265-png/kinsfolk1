@@ -7,7 +7,9 @@ export function accountScreen({ UI, Router, Store, Api, Guard, config }) {
   const out = async scope => { Store.set('manualOut', true); try { await Api.auth.signOut(scope); } catch { toast(t('err.generic')); } };
   const row = (ic, label, fn, cls = '') => el('button', { class: 'btn ghost rip ' + cls, type: 'button', onclick: fn }, icon(ic), label);
   return el('section', { class: 'auth home' },
-    ava, el('h1', { text: p.display_name || '' }), el('p', { class: 'sub mono', text: '@' + (p.username || '') }), el('p', { class: 'sub mono', text: u.email || '' }),
+    ava, el('h1', { text: p.display_name || '' }), el('p', { class: 'sub mono', text: '@' + (p.username || '') }), el('p', { class: 'sub mono', text: u.email || '' }), p.bio ? el('p', { class: 'bio', text: p.bio }) : null,
+    row('search', t('ac.people'), () => Router.go('people')),
+    row('edit', t('ac.edit'), () => Router.go('editProfile')),
     row('logout', t('ac.out'), () => out('local')),
     row('logout', t('ac.outAll'), async () => { if (await dialog({ title: t('ac.outAllQ'), text: t('ac.outAllT'), ok: t('ac.outAll') })) out('global'); }),
     row('info', t('ac.about'), () => Router.go('about')),

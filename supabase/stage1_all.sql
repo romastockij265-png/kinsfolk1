@@ -22,6 +22,7 @@ end;
 $$;
 revoke all on function public.delete_my_account() from public, anon;
 grant execute on function public.delete_my_account() to authenticated;
+
 -- ЭТАП 1. Правила доступа (RLS). Можно запускать повторно.
 alter table public.profiles enable row level security;
 
@@ -36,6 +37,11 @@ drop policy if exists profiles_update_own on public.profiles;
 create policy profiles_update_own on public.profiles for update to authenticated
   using (id = (select auth.uid())) with check (id = (select auth.uid()));
 -- delete-политики нет намеренно: аккаунт удаляется только функцией delete_my_account().
+
+-- Права для вошедших пользователей (Supabase может не выдавать их новым таблицам сам).
+grant usage on schema public to authenticated;
+grant select, insert, update on table public.profiles to authenticated;
+
 -- ЭТАП 1. Хранилище аватаров. Можно запускать повторно.
 insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
 values ('avatars', 'avatars', true, 2097152, array['image/jpeg','image/png','image/webp'])

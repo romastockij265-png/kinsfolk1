@@ -56,6 +56,19 @@ const profiles = {
     return !d.length || d[0].id === myId;
   },
   save: p => call('profile.save', c => c.from('profiles').upsert(p, { onConflict: 'id' }).select().single(), { retries: 0 }),
+  async search(q, myId) {
+    const e = q.replace(/[\\%_]/g, m => '\\' + m), cols = 'id,username,display_name,avatar_url,bio';
+    const [a, b] = await Promise.all([
+      call('people.username', c => c.from('profiles').select(cols).ilike('username', e + '%').neq('id', myId).limit(20)),
+      call('people.name', c => c.from('profiles').select(cols).ilike('display_name', '%' + e + '%').neq('id', myId).limit(20))
+    ]);
+    const seen = new Set();
+    return [...a, ...b].filter(p => !seen.has(p.id) && seen.add(p.id)).slice(0, 20);
+  },
+  async removeAvatarFile(url) { // старый файл аватара; ошибки не важны
+    const m = /\/avatars\/(.+?)(\?|$)/.exec(url || ''); if (!m) return;
+    try { await call('avatar.remove', c => c.storage.from('avatars').remove([decodeURIComponent(m[1])]), { retries: 0 }); } catch { /* не страшно */ }
+  },
   async uploadAvatar(uid, blob) {
     const path = `${uid}/avatar-${Date.now()}.jpg`;
     await call('avatar.upload', c => c.storage.from('avatars').upload(path, blob, { contentType: 'image/jpeg', upsert: true }), { retries: 0 });
